@@ -1,4 +1,19 @@
-from tkinter import Tk, Frame, Label, Entry, GROOVE, Text, Button, ttk, CENTER
+from tkinter import Tk, Frame, Label, Entry, GROOVE, Text, Button, ttk, CENTER, END
+
+def clear_login():
+    email_entry.delete(0, END)
+    pass_entry.delete(0, END)
+
+def clear_body():
+    subject_entry.delete(0, END)
+    mail_entry.delete(1.0, END)
+
+def clear_all():
+    email_entry.delete(0, END)
+    pass_entry.delete(0, END)
+    subject_entry.delete(0, END)
+    mail_entry.delete(1.0, END)
+    
 
 root = Tk()
 
@@ -42,13 +57,13 @@ btn_frame = Frame(main_frame_0)                                #button frame
 btn_send = Button(btn_frame, text='Send')
 btn_send.grid(row=0, column=0, columnspan=3, sticky='nesw')
 
-btn_reset_login = Button(btn_frame, text='Reset Login')
+btn_reset_login = Button(btn_frame, text='Reset Login', command=clear_login)
 btn_reset_login.grid(row=1, column=0)
 
-btn_reset_body = Button(btn_frame, text='Reset Body')
+btn_reset_body = Button(btn_frame, text='Reset Body', command=clear_body)
 btn_reset_body.grid(row=1, column=1)
 
-btn_rest_all = Button(btn_frame, text='Reset All')
+btn_rest_all = Button(btn_frame, text='Reset All' command=clear_all)
 btn_rest_all.grid(row=1, column=2)
 
 btn_frame.grid(row=2, column=0)
@@ -65,6 +80,6 @@ table.column("Mail", stretch=False, width=90, anchor=CENTER)
 table.column("Name", stretch=False, width=150, anchor=CENTER)
 table.grid(column=0, row=0, rowspan=1)
 
-mailers_frame.grid(row=0, column=1, sticky='nsew')
+mailers_frame.grid(row=0, column=1)
 
 root.mainloop()
