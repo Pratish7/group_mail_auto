@@ -5,8 +5,9 @@ from mail import mail
 csv_list=[]
 
 def clear_login():
-    email_entry.delete(0, END)
+    email_addr_entry.delete(0, END)
     pass_entry.delete(0, END)
+    name_entry.delete(0, END)
 
 def clear_body():
     subject_entry.delete(0, END)
@@ -14,8 +15,9 @@ def clear_body():
     sendto_entry.delete(0, END)
 
 def clear_all():
-    email_entry.delete(0, END)
+    email_addr_entry.delete(0, END)
     pass_entry.delete(0, END)
+    name_entry.delete(0, END)
     subject_entry.delete(0, END)
     mail_entry.delete(1.0, END)
     sendto_entry.delete(0, END)
@@ -29,8 +31,11 @@ def load_csv():
             csv_list.append(row['email'])
             table.insert('',0, values=(row['email'], row['name']))
 
+    sendto_entry.insert(0, 'CSV loaded')
+    sendto_entry.config(state='disabled')
+
 def load_mailers():
-    if len(email_entry.get())==0 or '@' not in (email_entry.get()) or (len(email_entry.get()))<5:
+    if len(email_addr_entry.get())==0 or '@' not in (email_addr_entry.get()) or (len(email_addr_entry.get()))<5:
         messagebox.showerror('Error', 'Invalid email address')
         return
 
@@ -42,7 +47,9 @@ def load_mailers():
         messagebox.showerror('Error', 'Please enter your name')
         return
 
-    if len(sendto_entry.get())==0 or '@' not in (sendto_entry.get()) or (len(sendto_entry.get()))<5:
+    if sendto_entry.cget('state') == 'disabled':
+        pass
+    elif len(sendto_entry.get())==0 or '@' not in (sendto_entry.get()) or (len(sendto_entry.get()))<5:
         messagebox.showerror('Error', 'Invalid reciever\'s mail address')
         return
 
@@ -53,7 +60,13 @@ def load_mailers():
     if len(mail_entry.get('1.0', END))==1:
         messagebox.showerror('Error', 'Empty mail body')
         return
-    
+
+    if len(csv_list)>0:
+        mailers_list = csv_list
+    else:
+        mailers_list =  sendto_entry.get().split(';')
+
+    mail(email_addr_entry.get(), pass_entry.get(), name_entry.get(), subject_entry.get(), mail_entry.get(1.0, END), mailers_list)    
 
 root = Tk()
 
@@ -61,11 +74,11 @@ main_frame_0 = Frame(root)
 
 login_frame = Frame(main_frame_0, relief=GROOVE, border=1)      #login frame
 
-email_label = Label(login_frame, text='Email')
-email_label.grid(row=0, column=0, sticky='W')
+email_addr_label = Label(login_frame, text='Email')
+email_addr_label.grid(row=0, column=0, sticky='W')
 
-email_entry = Entry(login_frame)
-email_entry.grid(row=1, column=0, sticky='W')
+email_addr_entry = Entry(login_frame)
+email_addr_entry.grid(row=1, column=0, sticky='W')
 
 pass_label = Label(login_frame, text='Password')
 pass_label.grid(row=0, column=1, sticky='W')
@@ -132,9 +145,17 @@ table = ttk.Treeview(mailers_frame)
 table['show'] = 'headings'
 table["columns"] = ("Mail", "Name")
 table.column("Mail", stretch=False, width=90, anchor=CENTER)
-table.column("Name", stretch=False, width=150, anchor=CENTER)
+table.column("Name", stretch=False, width=90, anchor=CENTER)
 table.grid(column=0, row=0, rowspan=1)
 
 mailers_frame.grid(row=0, column=1)
+
+
+#testing
+email_addr_entry.insert(0, 'pratishbajpai6@gmail.com')
+pass_entry.insert(0, 'Pratish7@123')
+name_entry.insert(0, 'Pratish Bajpai')
+subject_entry.insert(0, 'test')
+mail_entry.insert('1.0', 'sending from app')
 
 root.mainloop()
