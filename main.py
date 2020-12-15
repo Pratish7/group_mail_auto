@@ -151,16 +151,18 @@ btn_frame.grid(row=2, column=0)
 main_frame_0.grid(row=0, column=0)
 
 
-mailers_frame = Frame(root)
+mailers_frame = Frame(root, relief=GROOVE, border=2)         #table frame
 
 table = ttk.Treeview(mailers_frame)
 table['show'] = 'headings'
 table["columns"] = ("Mail", "Name")
-table.column("Mail", stretch=False, width=90, anchor=CENTER)
-table.column("Name", stretch=False, width=90, anchor=CENTER)
-table.grid(column=0, row=0, rowspan=1)
+table.column("Mail", stretch=False, width=300, anchor=CENTER)
+table.column("Name", stretch=False, width=250, anchor=CENTER)
+table.heading('Mail', text='Mail')
+table.heading('Name', text='Name')
+table.pack(expand=True, fill='both')
 
-mailers_frame.grid(row=0, column=1)
+mailers_frame.grid(row=0, column=1, sticky='NS')
 
 
 #testing
