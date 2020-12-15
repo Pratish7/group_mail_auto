@@ -83,7 +83,7 @@ email_addr_entry.grid(row=1, column=0, sticky='W')
 pass_label = Label(login_frame, text='Password')
 pass_label.grid(row=0, column=1, sticky='W')
 
-pass_entry = Entry(login_frame)
+pass_entry = Entry(login_frame, show="*")
 pass_entry.grid(row=1, column=1, sticky='W')
 
 name_label = Label(login_frame, text='Your name (will be shown in "From" in the mail)')
