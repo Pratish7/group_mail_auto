@@ -1,5 +1,8 @@
-from tkinter import Tk, Frame, Label, Entry, GROOVE, Text, Button, ttk, CENTER, END, filedialog
+from tkinter import Tk, Frame, Label, Entry, GROOVE, Text, Button, ttk, CENTER, END, filedialog, messagebox
 import csv
+from mail import mail
+
+csv_list=[]
 
 def clear_login():
     email_entry.delete(0, END)
@@ -18,13 +21,38 @@ def clear_all():
     sendto_entry.delete(0, END)
 
 def load_csv():
-    mailers_list = []
+    csv_list.clear()
     file = filedialog.askopenfilename()
     with open(file) as f:
         reader = csv.DictReader(f, delimiter=',')
         for row in reader:
-            mailers_list.append(row['email'])
+            csv_list.append(row['email'])
             table.insert('',0, values=(row['email'], row['name']))
+
+def load_mailers():
+    if len(email_entry.get())==0 or '@' not in (email_entry.get()) or (len(email_entry.get()))<5:
+        messagebox.showerror('Error', 'Invalid email address')
+        return
+
+    if len(pass_entry.get())==0:
+        messagebox.showerror('Error', 'Please enter password')
+        return
+
+    if len(name_entry.get())==0:
+        messagebox.showerror('Error', 'Please enter your name')
+        return
+
+    if len(sendto_entry.get())==0 or '@' not in (sendto_entry.get()) or (len(sendto_entry.get()))<5:
+        messagebox.showerror('Error', 'Invalid reciever\'s mail address')
+        return
+
+    if len(subject_entry.get())==0:
+        messagebox.showerror('Error', 'Empty subject')
+        return
+
+    if len(mail_entry.get('1.0', END))==1:
+        messagebox.showerror('Error', 'Empty mail body')
+        return
     
 
 root = Tk()
@@ -33,20 +61,25 @@ main_frame_0 = Frame(root)
 
 login_frame = Frame(main_frame_0, relief=GROOVE, border=1)      #login frame
 
-email_label = Label(login_frame, text='email')
+email_label = Label(login_frame, text='Email')
 email_label.grid(row=0, column=0, sticky='W')
 
 email_entry = Entry(login_frame)
-email_entry.grid(row=1, column=0)
+email_entry.grid(row=1, column=0, sticky='W')
 
-
-pass_label = Label(login_frame, text='password')
+pass_label = Label(login_frame, text='Password')
 pass_label.grid(row=0, column=1, sticky='W')
 
 pass_entry = Entry(login_frame)
-pass_entry.grid(row=1, column=1)
+pass_entry.grid(row=1, column=1, sticky='W')
 
-login_frame.grid(row=0, column=0)
+name_label = Label(login_frame, text='Your name (will be shown in "From" in the mail)')
+name_label.grid(row=0, column=2, sticky='W')
+
+name_entry = Entry(login_frame)
+name_entry.grid(row=1, column=2, sticky='WE')
+
+login_frame.grid(row=0, column=0, sticky='WE')
 
 
 body_frame = Frame(main_frame_0, relief=GROOVE, border=1)        #body frame
@@ -76,7 +109,7 @@ body_frame.grid(row=1, column=0)
 
 btn_frame = Frame(main_frame_0)                                #button frame
 
-btn_send = Button(btn_frame, text='Send')
+btn_send = Button(btn_frame, text='Send', command=load_mailers)
 btn_send.grid(row=0, column=0, columnspan=3, sticky='nesw')
 
 btn_reset_login = Button(btn_frame, text='Reset Login', command=clear_login)
