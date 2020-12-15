@@ -68,6 +68,15 @@ def load_mailers():
 
     mail(email_addr_entry.get(), pass_entry.get(), name_entry.get(), subject_entry.get(), mail_entry.get(1.0, END), mailers_list)    
 
+def show_pass():
+    if pass_entry.cget('show') == '*':
+        pass_entry.config(show='')
+        show_pass_btn.config(text='Hide')
+    elif pass_entry.cget('show') == '':
+        pass_entry.config(show='*')
+        show_pass_btn.config(text='Show')
+    
+
 root = Tk()
 
 main_frame_0 = Frame(root)
@@ -86,11 +95,14 @@ pass_label.grid(row=0, column=1, sticky='W')
 pass_entry = Entry(login_frame, show="*")
 pass_entry.grid(row=1, column=1, sticky='W')
 
+show_pass_btn = Button(login_frame, text='show', command=show_pass, width=2)
+show_pass_btn.grid(row=1, column=2)
+
 name_label = Label(login_frame, text='Your name (will be shown in "From" in the mail)')
-name_label.grid(row=0, column=2, sticky='W')
+name_label.grid(row=0, column=3, sticky='W')
 
 name_entry = Entry(login_frame)
-name_entry.grid(row=1, column=2, sticky='WE')
+name_entry.grid(row=1, column=3, sticky='WE')
 
 login_frame.grid(row=0, column=0, sticky='WE')
 
