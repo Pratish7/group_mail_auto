@@ -172,4 +172,5 @@ name_entry.insert(0, 'Pratish Bajpai')
 subject_entry.insert(0, 'test')
 mail_entry.insert('1.0', 'sending from app')
 
+
 root.mainloop()
