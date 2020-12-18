@@ -43,9 +43,9 @@ def load_mailers():
         messagebox.showerror('Error', 'Please enter password')
         return
 
-    if len(name_entry.get())==0:
-        messagebox.showerror('Error', 'Please enter your name')
-        return
+    # if len(name_entry.get())==0:
+    #     messagebox.showerror('Error', 'Please enter your name')
+    #     return
 
     if sendto_entry.cget('state') == 'disabled':
         pass
@@ -66,7 +66,7 @@ def load_mailers():
     else:
         mailers_list =  sendto_entry.get().split(';')
 
-    mail(email_addr_entry.get(), pass_entry.get(), name_entry.get(), subject_entry.get(), mail_entry.get(1.0, END), mailers_list)    
+    mail(email_addr_entry.get(), pass_entry.get(), email_addr_entry.get(), subject_entry.get(), mail_entry.get(1.0, END), mailers_list)    
 
 def show_pass():
     if pass_entry.cget('show') == '*':
@@ -78,6 +78,7 @@ def show_pass():
     
 
 root = Tk()
+root.title('Bulk Mailer')
 
 main_frame_0 = Frame(root)
 
@@ -99,10 +100,10 @@ show_pass_btn = Button(login_frame, text='show', command=show_pass, width=2)
 show_pass_btn.grid(row=1, column=2)
 
 name_label = Label(login_frame, text='Your name (will be shown in "From" in the mail)')
-name_label.grid(row=0, column=3, sticky='W')
+# name_label.grid(row=0, column=3, sticky='W')
 
 name_entry = Entry(login_frame)
-name_entry.grid(row=1, column=3, sticky='WE')
+#name_entry.grid(row=1, column=3, sticky='WE')
 
 login_frame.grid(row=0, column=0, sticky='WE')
 
@@ -163,14 +164,5 @@ table.heading('Name', text='Name')
 table.pack(expand=True, fill='both')
 
 mailers_frame.grid(row=0, column=1, sticky='NS')
-
-
-#testing
-email_addr_entry.insert(0, 'pratishbajpai6@gmail.com')
-pass_entry.insert(0, 'Pratish7@123')
-name_entry.insert(0, 'Pratish Bajpai')
-subject_entry.insert(0, 'test')
-mail_entry.insert('1.0', 'sending from app')
-
 
 root.mainloop()
