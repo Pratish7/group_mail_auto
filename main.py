@@ -24,6 +24,7 @@ def clear_all():
 
 def load_csv():
     csv_list.clear()
+    table.delete(*table.get_children())
     file = filedialog.askopenfilename()
     with open(file) as f:
         reader = csv.DictReader(f, delimiter=',')
@@ -35,6 +36,7 @@ def load_csv():
     sendto_entry.config(state='disabled')
 
 def load_mailers():
+    mailers_list=[]
     if len(email_addr_entry.get())==0 or '@' not in (email_addr_entry.get()) or (len(email_addr_entry.get()))<5:
         messagebox.showerror('Error', 'Invalid email address')
         return
@@ -62,10 +64,12 @@ def load_mailers():
         return
 
     if len(csv_list)>0:
+        mailers_list.clear
         mailers_list = csv_list
     else:
+        mailers_list.clear()
         mailers_list =  sendto_entry.get().split(';')
-
+    print(mailers_list)
     mail(email_addr_entry.get(), pass_entry.get(), email_addr_entry.get(), subject_entry.get(), mail_entry.get(1.0, END), mailers_list)    
 
 def show_pass():
